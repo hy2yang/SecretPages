@@ -3,6 +3,6 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">  
 <configuration>  
     <typeAliases>  
-        <typeAlias alias="user" type="com.hy2yang.demo.entity.User"/>  
+        <typeAlias alias="User" type="com.hy2yang.demo.entity.User"/>  
     </typeAliases>  
 </configuration>  

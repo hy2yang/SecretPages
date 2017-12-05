@@ -15,10 +15,9 @@ public class TestSpring {
         UserService us=(UserService) ac.getBean("userService");  
         User user=new User();  
         user.setAge(18);  
-        user.setUserName("Rose");  
-        user.setPassword("goeson");  
-        user.setTrueName("MsRose");  
-        us.add(user); 
-        us.delete(2);
+        user.setUserName("Rose2");  
+        user.setPassword("another");  
+        user.setTrueName("2MsRose");  
+        us.add(user);
     }  
 }  
