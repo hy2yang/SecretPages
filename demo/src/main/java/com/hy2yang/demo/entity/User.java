@@ -1,6 +1,10 @@
 package com.hy2yang.demo.entity;
 
-public class User{  
+import java.io.Serializable;
+
+public class User implements Serializable{  
+  
+    private static final long serialVersionUID = -1459249690461512789L;
     private Integer id;  
     private String userName;  
     private String password;  
