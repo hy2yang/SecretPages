@@ -36,8 +36,7 @@ public class UserController {
     private UserService userService;  
       
     @RequestMapping("/showUser.do")  
-    public String toIndex(HttpServletRequest request,Model model){  
-        System.out.println("liuhaitest");  
+    public String toIndex(HttpServletRequest request,Model model){ 
         return "showUser";  
     }  
     // /user/test.do?id=1  
@@ -115,7 +114,7 @@ public class UserController {
      * @throws Exception 
      */  
     @RequestMapping("/save.do")  
-    public String save(User user,HttpServletResponse res) throws Exception{  
+    public void save(User user,HttpServletResponse res) throws Exception{  
         //操作记录条数，初始化为0  
         int resultTotal = 0;  
         if (user.getId() == null) {  
@@ -130,7 +129,7 @@ public class UserController {
             jsonObject.put("success", false);  
         }  
         ResponseUtil.write(res, jsonObject);  
-        return null;  
+        return;  
     }  
     /** 
      * 用户分页查询 
@@ -142,11 +141,11 @@ public class UserController {
      * @throws Exception 
      */  
     @RequestMapping("/list.do")  
-    public String list(@RequestParam(value="page",required=false) String page,@RequestParam(value="rows",required=false) String rows,User s_user,HttpServletResponse res) throws Exception{  
+    public void list(@RequestParam(value="page",required=false) String page,@RequestParam(value="rows",required=false) String rows,User s_user,HttpServletResponse res) throws Exception{  
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));  
         Map<String,Object> map=new HashMap<String,Object>();  
         map.put("userName", StringUtil.formatLike(s_user.getUserName()));  
-        map.put("start", pageBean.getStart());  
+        map.put("start", pageBean.getStartIndex());  
         map.put("size", pageBean.getPageSize());  
         List<User> userList=userService.find(map);  
         Long total=userService.getTotal(map);  
@@ -155,7 +154,7 @@ public class UserController {
         result.put("rows", jsonArray);  
         result.put("total", total);  
         ResponseUtil.write(res, result);  
-        return null;  
+        return;  
     }  
     /** 
      * 删除用户 
@@ -165,7 +164,7 @@ public class UserController {
      * @throws Exception 
      */  
     @RequestMapping("/delete.do")  
-    public String delete(@RequestParam(value="ids") String ids,HttpServletResponse res) throws Exception{  
+    public void delete(@RequestParam(value="ids") String ids,HttpServletResponse res) throws Exception{  
         String[] idStr = ids.split(",");  
         JSONObject jsonObject = new JSONObject();  
         for (String id : idStr) {  
@@ -173,6 +172,6 @@ public class UserController {
         }  
         jsonObject.put("success", true);  
         ResponseUtil.write(res, jsonObject);  
-        return null;  
+        return;  
     }  
 }  

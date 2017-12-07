@@ -1,19 +1,19 @@
 package com.hy2yang.demo.util;
 
 public class PageBean {  
-    private int page; // 第几页  
-    private int pageSize; // 每页记录数  
-    private int start;  // 起始页  
+    private int cur; // current page number  
+    private int pageSize; 
+    
     public PageBean(int page, int pageSize) {  
         super();  
-        this.page = page;  
+        this.cur = page;  
         this.pageSize = pageSize;  
     }  
     public int getPage() {  
-        return page;  
+        return cur;  
     }  
     public void setPage(int page) {  
-        this.page = page;  
+        this.cur = page;  
     }  
     public int getPageSize() {  
         return pageSize;  
@@ -21,7 +21,7 @@ public class PageBean {
     public void setPageSize(int pageSize) {  
         this.pageSize = pageSize;  
     }  
-    public int getStart() {  
-        return (page-1)*pageSize;  
+    public int getStartIndex() {  
+        return (cur-1)*pageSize;  
     }  
 }  
