@@ -4,20 +4,19 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.hy2yang.demo.entity.User;
-import com.hy2yang.demo.service.UserService;
+import com.hy2yang.demo.entity.Record;
+import com.hy2yang.demo.service.RecordService;
 
 public class TestSpring {  
     @Test  
-    public void TestUserService() throws Exception{  
+    public void TestRecordService() throws Exception{  
         @SuppressWarnings("resource")  
         ApplicationContext ac=new ClassPathXmlApplicationContext("spring-mybatis.xml");  
-        UserService us=(UserService) ac.getBean("userService");  
-        User user=new User();  
-        user.setAge(18);  
-        user.setUserName("Rose2");  
-        user.setPassword("another");  
-        user.setTrueName("2MsRose");  
-        us.add(user);
+        RecordService us=(RecordService) ac.getBean("recordService");  
+        Record r=new Record();  
+        r.setMessage("test message");
+        r.setIsURL(false);
+        r.setGroup(4);
+        us.add(r);
     }  
 }  

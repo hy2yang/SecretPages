@@ -1,28 +1,23 @@
 package com.hy2yang.demo.dao;
 
-import com.hy2yang.demo.entity.User;
+import com.hy2yang.demo.entity.Record;
 
 import java.util.List;
 import java.util.Map; 
 
-public interface UserDao {  
-    /** 
-     * 用户登录 
-     * @param user 
-     * @return 
-     */  
-    public User login(User user);  
+public interface RecordDao {  
+    
     /** 
      * 查询所有用户 
      * @return 
      */  
-    public List<User> getAll();  
+    public List<Record> getAll();  
     /** 
      * 根据条件查询用户 
      * @param user 
      * @return 
      */  
-    public User getUser(User user);  
+    public Record getRecord(Record p);  
     /** 
      * 删除用户 
      * @param user 
@@ -34,19 +29,19 @@ public interface UserDao {
      * @param user 
      * @return 
      */  
-    public int update(User user);  
+    public int update(Record p);  
     /** 
      * 添加用户 
      * @param user 
      * @return 
      */  
-    public int add(User user);  
+    public int add(Record p);  
     /** 
      * 用户查询 
      * @param map 
      * @return 
      */  
-    public List<User> find(Map<String,Object> map);  
+    public List<Record> find(Map<String,Object> map);  
     /** 
      * 获取总记录数 
      * @param map 
@@ -58,5 +53,5 @@ public interface UserDao {
      * @param id 
      * @return 
      */  
-    public User getUserById(int id);  
+    public Record getRecordById(int id);  
 }  
