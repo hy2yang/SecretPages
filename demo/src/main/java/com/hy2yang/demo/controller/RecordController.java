@@ -29,7 +29,7 @@ import com.hy2yang.demo.util.ResponseUtil;
 import com.hy2yang.demo.util.StringUtil;
 
 @Controller  
-@RequestMapping("/user")  
+@RequestMapping("/records")  
 public class RecordController {  
     
     private static Logger log=LoggerFactory.getLogger(RecordController.class);  
@@ -143,13 +143,13 @@ public class RecordController {
     String rows,Record r,HttpServletResponse res) throws Exception{  
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));  
         Map<String,Object> map=new HashMap<String,Object>();  
-        map.put("userName", StringUtil.formatLike(r.getMessage()));  
+        map.put("message", StringUtil.formatLike(r.getMessage()));  
         map.put("start", pageBean.getStartIndex());  
         map.put("size", pageBean.getPageSize());  
-        List<Record> userList=userService.find(map);  
+        List<Record> recordList=userService.find(map);  
         Long total=userService.getTotal(map);  
         JSONObject result=new JSONObject();  
-        JSONArray jsonArray=JSONArray.fromObject(userList);  
+        JSONArray jsonArray=JSONArray.fromObject(recordList);  
         result.put("rows", jsonArray);  
         result.put("total", total);  
         ResponseUtil.write(res, result);  

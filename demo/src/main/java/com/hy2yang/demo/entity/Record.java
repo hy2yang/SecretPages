@@ -9,16 +9,17 @@ public class Record implements Serializable{
     
     private Integer id;      
     private String message;
-    private boolean isURL;
+    private boolean URL;    
     private int group;
     
-    
-    public boolean isURL() {
-        return isURL;
+    public Boolean isURL() {
+        return Boolean.valueOf(URL);
     }
-    public void setIsURL(boolean isURL) {
-        this.isURL = isURL;
+
+    public void setURL(boolean isURL) {
+        URL = isURL;
     }
+
     public String getMessage() {
         return message;
     }

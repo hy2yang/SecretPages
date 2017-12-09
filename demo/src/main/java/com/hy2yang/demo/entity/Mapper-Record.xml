@@ -5,14 +5,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.hy2yang.demo.dao.RecordDao">  
      <!-- 定义缓存  一般是一级缓存，如果用同一个sqlsession 那么相同查询直接会从缓存中查找 -->  
     <cache size="1024" flushInterval="60000" eviction="LRU" readOnly="false"></cache>  
+    
     <!-- 增加 -->  
     <insert id="add" parameterType="com.hy2yang.demo.entity.Record">  
-        insert into users values(null,#{message},#{isURL},#{group})  
+        insert into users values(null,#{message},#{URL},#{group})  
     </insert>  
     <resultMap id="recordResultMap" type="com.hy2yang.demo.entity.Record" >  
         <id property="id" column="id"/>  
         <result property="message" column="message"/>  
-        <result property="isURL" column="isURL"/>  
+        <result property="URL" column="URL"/>  
         <result property="group" column="group"/> 
     </resultMap>  
     <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap">  
@@ -43,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update users  
         <set>  
             <if test="message != null and message != ''">message = #{message},</if>  
-            <if test="isURL != null and isURL != ''">isURL = #{isURL},</if>  
+            <if test="URL != null and URL != ''">URL = #{URL},</if>  
             <if test="group != null and group != ''">group = #{group},</if> 
         </set>  
         where id = #{id}  

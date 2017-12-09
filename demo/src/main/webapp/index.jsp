@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>  
     <base href="<%=basePath%>">  
       
-    <title>My JSP 'userManage.jsp' starting page</title>  
+    <title>starting page</title>  
       
     <meta http-equiv="pragma" content="no-cache">  
     <meta http-equiv="cache-control" content="no-cache">  
@@ -21,11 +21,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.easyui.min.js"></script> 
     <script type="text/javascript">  
         var url;  
-        function openUserAddDialog() {  
+        function openRecordAddDialog() {  
             $("#dlg").dialog("open").dialog("setTitle", "add user info");  
             url = "${pageContext.request.contextPath}/user/save.do";  
         }  
-        function saveUser() {  
+        function saveRecord() {  
             $("#fm").form("submit", {  
                 url : url,  
                 onSubmit : function() {  
@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>  
     
   <body style="margin: 1px">  
-    <table id="dg" title="user management" class="easyui-datagrid" fitColumns="true"  
+    <table id="dg" title="record management" class="easyui-datagrid" fitColumns="true"  
         pagination="true" rownumbers="true"  
         url="${pageContext.request.contextPath}/user/list.do" fit="true"  
         toolbar="#tb">  
@@ -112,17 +112,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <tr>  
                 <th field="cb" checkbox="true" align="center"></th>  
                 <th field="id" width="50" align="center">ID</th>  
-                <th field="userName" width="50" align="center">User Name</th>  
-                <th field="password" width="50" align="center">Password</th>  
-                <th field="trueName" width="50" align="center">True Name</th>  
-                <th field="email" width="50" align="center">Email</th>  
-                <th field="phone" width="50" align="center">Phone Number</th>  
-                <th field="roleName" width="50" align="center">Role</th>  
+                <th field="message" width="50" align="center">Message</th>  
+                <th field="isURL" width="50" align="center">isURL</th>  
+                <th field="group" width="50" align="center">Group</th> 
             </tr>  
         </thead>  
     </table>  
     <div id="tb">  
-        <a href="javascript:openUserAddDialog()" class="easyui-linkbutton"  
+        <a href="javascript:openRecordAddDialog()" class="easyui-linkbutton"  
             iconCls="icon-add" plain="true">Add</a> <a  
             href="javascript:openUserModifyDialog()" class="easyui-linkbutton"  
             iconCls="icon-edit" plain="true">Edit</a> <a  
@@ -135,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 iconCls="icon-search" plain="true">Query</a>  
         </div>  
         <div id="dlg-buttons">  
-            <a href="javascript:saveUser()" class="easyui-linkbutton"  
+            <a href="javascript:saveRecord()" class="easyui-linkbutton"  
                 iconCls="icon-ok">Save</a> <a href="javascript:closeUserDialog()"  
                 class="easyui-linkbutton" iconCls="icon-cancel">Close</a>  
         </div>  

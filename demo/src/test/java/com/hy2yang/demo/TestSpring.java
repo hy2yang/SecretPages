@@ -14,8 +14,8 @@ public class TestSpring {
         ApplicationContext ac=new ClassPathXmlApplicationContext("spring-mybatis.xml");  
         RecordService us=(RecordService) ac.getBean("recordService");  
         Record r=new Record();  
-        r.setMessage("test message");
-        r.setIsURL(false);
+        r.setMessage("test message2");
+        r.setURL(false);
         r.setGroup(4);
         us.add(r);
     }  
