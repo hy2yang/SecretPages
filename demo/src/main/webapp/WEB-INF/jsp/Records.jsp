@@ -110,6 +110,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $("#fm").form("load", row);
         url = "${pageContext.request.contextPath}/records/save.do?id=" + row.id;
     }
+
+    function formatIsURL(value,row,index)
+    {
+     if(value)
+        return "yes";
+     else
+        return "no";
+    }
     
     </script>  
   </head>  
@@ -124,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <th field="cb" checkbox="true" align="center"></th>  
                 <th field="id" width="50" align="center">ID</th>  
                 <th field="message" width="50" align="center">Message</th>  
-                <th field="isURL" width="50" align="center">isURL</th>  
+                <th field="isURL" formatter="formatIsURL" width="50" align="center">isURL</th>  
                 <th field="group" width="50" align="center">Group</th> 
             </tr>  
         </thead>  
@@ -137,7 +145,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             href="javascript:deleteRecord()" class="easyui-linkbutton"  
             iconCls="icon-remove" plain="true">Delete</a>  
         <div>  
-             User Name: <input type="text" id="s_message" size="20"  
+             Message: <input type="text" id="s_message" size="20"  
                 onkeydown="if(event.keyCode == 13)searchRecord()" /> <a  
                 href="javascript:searchRecord()" class="easyui-linkbutton"  
                 iconCls="icon-search" plain="true">Query</a>  

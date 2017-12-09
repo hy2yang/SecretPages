@@ -8,9 +8,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;  
-import net.sf.json.JSONObject;  
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hy2yang.demo.entity.Record;
 import com.hy2yang.demo.service.RecordService;
 import com.hy2yang.demo.util.PageBean;
@@ -34,7 +33,7 @@ public class RecordController {
     
     private static Logger log=LoggerFactory.getLogger(RecordController.class);  
     @Resource  
-    private RecordService userService;  
+    private RecordService recordService;  
       
     @RequestMapping("/showUser.do")  
     public String toIndex(HttpServletRequest request,Model model){ 
@@ -59,7 +58,7 @@ public class RecordController {
     public String toindex(HttpServletRequest request,Model model){    
         int recordId = Integer.parseInt(request.getParameter("id"));    
         System.out.println("recordId:"+recordId);  
-        Record r = this.userService.getRecordById(recordId);    
+        Record r = this.recordService.getRecordById(recordId);    
         log.debug(r.toString());  
         model.addAttribute("user", r);    
         return "showUser";    
@@ -70,7 +69,7 @@ public class RecordController {
     public String toIndex2(@RequestParam("id") String id,Model model){    
         int recordId = Integer.parseInt(id);    
         System.out.println("recordId:"+recordId);  
-        Record r = this.userService.getRecordById(recordId);    
+        Record r = this.recordService.getRecordById(recordId);    
         log.debug(r.toString());  
         model.addAttribute("user", r);    
         return "showUser";    
@@ -81,7 +80,7 @@ public class RecordController {
     public @ResponseBody Record getUserInJson(@RequestParam("id") String id,Map<String, Object> model){    
         int recordId = Integer.parseInt(id);    
         System.out.println("recordId:"+recordId);  
-        Record r = this.userService.getRecordById(recordId);    
+        Record r = this.recordService.getRecordById(recordId);    
         log.info(r.toString());  
         return r;    
     }    
@@ -90,7 +89,7 @@ public class RecordController {
     public ResponseEntity<Record>  getUserInJson2(@RequestParam("id") String id,Map<String, Object> model){    
         int recordId = Integer.parseInt(id);    
         System.out.println("recordId:"+recordId);  
-        Record r = this.userService.getRecordById(recordId);    
+        Record r = this.recordService.getRecordById(recordId);    
         log.info(r.toString());  
         return new ResponseEntity<Record>(r,HttpStatus.OK);    
     }   
@@ -116,17 +115,26 @@ public class RecordController {
         //操作记录条数，初始化为0  
         int resultTotal = 0;  
         if (r.getId() == null) {  
-            resultTotal = userService.add(r);  
+            resultTotal = recordService.add(r);  
         }else{  
-            resultTotal = userService.update(r);  
+            resultTotal = recordService.update(r);  
         }  
-        JSONObject jsonObject = new JSONObject();  
+        
+        ObjectMapper mapper = new ObjectMapper(); 
+        ObjectNode result=mapper.createObjectNode();
+        if(resultTotal > 0){   //说明修改或添加成功  
+            result.put("success", Boolean.TRUE);  
+        }else{  
+            result.put("success", Boolean.FALSE);  
+        }  
+        
+        /*JSONObject jsonObject = new JSONObject();  
         if(resultTotal > 0){   //说明修改或添加成功  
             jsonObject.put("success", true);  
         }else{  
             jsonObject.put("success", false);  
-        }  
-        ResponseUtil.write(res, jsonObject);  
+        }  */
+        ResponseUtil.write(res, result);  
         return;  
     }  
     /** 
@@ -141,18 +149,31 @@ public class RecordController {
     @RequestMapping("/list.do")  
     public void list(@RequestParam(value="page",required=false) String page,@RequestParam(value="rows",required=false) 
     String rows,Record r,HttpServletResponse res) throws Exception{  
+        
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));  
         Map<String,Object> map=new HashMap<String,Object>();  
         map.put("message", StringUtil.formatLike(r.getMessage()));  
         map.put("start", pageBean.getStartIndex());  
         map.put("size", pageBean.getPageSize());  
-        List<Record> recordList=userService.find(map);  
-        Long total=userService.getTotal(map);  
+        List<Record> recordList=recordService.find(map);  
+        Long total=recordService.getTotal(map); 
+        
+        Map<String,Object> result=new HashMap<String,Object>();
+        ObjectMapper mapper = new ObjectMapper(); 
+        result.put("total", total);
+        result.put("rows", recordList); 
+        String jsonRes=mapper.writeValueAsString(result);
+        
+        //mapper.writeValue(res.getWriter(), result);
+       /* 
         JSONObject result=new JSONObject();  
         JSONArray jsonArray=JSONArray.fromObject(recordList);  
         result.put("rows", jsonArray);  
-        result.put("total", total);  
-        ResponseUtil.write(res, result);  
+        result.put("total", total); 
+        */
+        
+        ResponseUtil.write(res, jsonRes);
+        System.out.println(jsonRes);
         return;  
     }  
     /** 
@@ -164,13 +185,20 @@ public class RecordController {
      */  
     @RequestMapping("/delete.do")  
     public void delete(@RequestParam(value="ids") String ids,HttpServletResponse res) throws Exception{  
-        String[] idStr = ids.split(",");  
-        JSONObject jsonObject = new JSONObject();  
+        String[] idStr = ids.split(","); 
+        
+        ObjectMapper mapper = new ObjectMapper(); 
+        ObjectNode result=mapper.createObjectNode();
+        
+        //JSONObject jsonObject = new JSONObject();  
+        
         for (String id : idStr) {  
-            userService.delete(Integer.parseInt(id));  
-        }  
-        jsonObject.put("success", true);  
-        ResponseUtil.write(res, jsonObject);  
+            recordService.delete(Integer.parseInt(id));  
+        } 
+        
+        result.put("success", Boolean.TRUE);
+        //jsonObject.put("success", true);  
+        ResponseUtil.write(res, result);  
         return;  
     }  
 }  

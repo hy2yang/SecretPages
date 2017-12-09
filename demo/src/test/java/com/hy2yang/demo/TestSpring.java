@@ -17,6 +17,8 @@ public class TestSpring {
         r.setMessage("test message2");
         r.setURL(false);
         r.setGroup(4);
+        for (int i=0;i<15;++i) {
         us.add(r);
+        }
     }  
 }  
