@@ -122,7 +122,7 @@ public class RecordController {
         
         ObjectMapper mapper = new ObjectMapper(); 
         ObjectNode result=mapper.createObjectNode();
-        if(resultTotal > 0){   //说明修改或添加成功  
+        if(resultTotal > 0){   
             result.put("success", Boolean.TRUE);  
         }else{  
             result.put("success", Boolean.FALSE);  

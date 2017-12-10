@@ -10,7 +10,7 @@ public class Record implements Serializable{
     private Integer id;      
     private String message;
     private boolean URL;    
-    private int group;
+    private String group;
     
     public Boolean isURL() {
         return Boolean.valueOf(URL);
@@ -26,10 +26,10 @@ public class Record implements Serializable{
     public void setMessage(String message) {
         this.message = message;
     }
-    public int getGroup() {
+    public String getGroup() {
         return group;
     }
-    public void setGroup(int group) {
+    public void setGroup(String group) {
         this.group = group;
     }
     public Integer getId() {  

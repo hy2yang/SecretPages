@@ -1,5 +1,7 @@
 package com.hy2yang.demo;
 
+import java.util.Random;
+
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,9 +18,20 @@ public class TestSpring {
         Record r=new Record();  
         r.setMessage("test message2");
         r.setURL(false);
-        r.setGroup(4);
+        
         for (int i=0;i<15;++i) {
-        us.add(r);
+            r.setGroup(randomString(8));
+            us.add(r);
         }
     }  
+    
+    static final String AN = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static Random rnd = new Random();
+
+    private String randomString( int len ){
+       StringBuilder sb = new StringBuilder( len );
+       for( int i = 0; i < len; i++ ) 
+          sb.append( AN.charAt( rnd.nextInt(AN.length()) ) );
+       return sb.toString();
+    }
 }  
