@@ -16,11 +16,11 @@ public class TestSpring {
         ApplicationContext ac=new ClassPathXmlApplicationContext("spring-mybatis.xml");  
         RecordService us=(RecordService) ac.getBean("recordService");  
         Record r=new Record();  
-        r.setMessage("test message2");
+        r.setGroup("test group0");
         r.setURL(false);
         
-        for (int i=0;i<15;++i) {
-            r.setGroup(randomString(8));
+        for (int i=0;i<30;++i) {
+            r.setMessage(randomString(8));
             us.add(r);
         }
     }  

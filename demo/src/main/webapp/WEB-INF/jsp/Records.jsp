@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>  
     
   <body style="margin: 1px"> 
-    <table id="dg" title="record management" class="easyui-datagrid" fitColumns="true"  
+    <table id="dg" title="records management" class="easyui-datagrid" fitColumns="true"  
         pagination="true" rownumbers="true"  
         url="${pageContext.request.contextPath}/records/list.do" fit="true"  
         toolbar="#tb">  
@@ -132,20 +132,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <th field="group" width="50" align="center">Group</th> 
             </tr>  
         </thead>  
-    </table>  
-    <div id="tb">  
-        <a href="javascript:openRecordAddDialog()" class="easyui-linkbutton"  
-            iconCls="icon-add" plain="true">Add</a> <a  
-            href="javascript:openModifyDialog()" class="easyui-linkbutton"  
-            iconCls="icon-edit" plain="true">Edit</a> <a  
-            href="javascript:deleteRecord()" class="easyui-linkbutton"  
-            iconCls="icon-remove" plain="true">Delete</a>  
-        <div>  
-             Message: <input type="text" id="s_message" size="20"  
+    </table> 
+     
+    
+    <div id="tb"> 
+		
+		<div style="float: left;">
+			Message: <input type="text" id="s_key" size="20"
+				onkeydown="if(event.keyCode == 13) searchRecord()" /> <a
+				href="javascript:searchRecord()" class="easyui-linkbutton"
+				iconCls="icon-search" plain="true">search</a>
+		</div>
+		
+		<a href="javascript:openRecordAddDialog()" class="easyui-linkbutton"
+                iconCls="icon-add" plain="true" style="margin-left:20px;">Add</a> <a
+                href="javascript:openModifyDialog()" class="easyui-linkbutton"
+                iconCls="icon-edit" plain="true">Edit</a> <a
+                href="javascript:deleteRecord()" class="easyui-linkbutton"
+                iconCls="icon-remove" plain="true">Delete</a>  
+		
+		<div style="float: right;">  
+             key: <input type="text" id="s_message" size="20"  
                 onkeydown="if(event.keyCode == 13)searchRecord()" /> <a  
-                href="javascript:searchRecord()" class="easyui-linkbutton"  
-                iconCls="icon-search" plain="true">Query</a>  
-        </div>  
+                href="javascript:searchRecord()">Go or New</a>
+                
+        </div> 
+        
         <div id="dlg-buttons">  
             <a href="javascript:saveRecord()" class="easyui-linkbutton"  
                 iconCls="icon-ok">Save</a> <a href="javascript:closeUserDialog()"  
@@ -183,5 +195,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>  
         </div>  
     </div>  
+    
+    
   </body>  
 </html>  

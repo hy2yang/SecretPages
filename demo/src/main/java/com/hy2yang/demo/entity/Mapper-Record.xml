@@ -2,13 +2,13 @@
 <!DOCTYPE mapper  
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
-<mapper namespace="com.hy2yang.demo.dao.RecordDao">  
-     <!-- 定义缓存  一般是一级缓存，如果用同一个sqlsession 那么相同查询直接会从缓存中查找 -->  
+<mapper namespace="com.hy2yang.demo.dao.RecordDao">
+ 
     <cache size="1024" flushInterval="60000" eviction="LRU" readOnly="false"></cache>  
     
-    <!-- 增加 -->  
+    <!-- adding -->  
     <insert id="add" parameterType="com.hy2yang.demo.entity.Record">  
-        insert into users values(null,#{message},#{URL},#{group})  
+        insert into records values(null,#{message},#{URL},#{group})  
     </insert>  
     <resultMap id="recordResultMap" type="com.hy2yang.demo.entity.Record" >  
         <id property="id" column="id"/>  
@@ -17,31 +17,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="group" column="group"/> 
     </resultMap>  
     <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap">  
-        select * from users where id=#{id}  
+        select * from records where id=#{id}  
     </select>  
     <select id="find" parameterType="com.hy2yang.demo.entity.Record" resultMap="recordResultMap">  
-        select * from users   
+        select * from records   
         <where>  
             <if test="message!=null and message!='' ">  
                 and message like #{message}  
             </if> 
         </where>
+        <if test="start!=null and size!=null">  
+            limit #{start},#{size}  
+        </if>  
     </select>  
     <select id="getTotal" parameterType="Map" resultType="Long">  
-        select count(*) from users  
+        select count(*) from records  
         <where>  
             <if test="message!=null and message!='' ">  
                 and message like #{message}  
             </if>  
         </where>  
     </select>  
-    <!-- 用户删除 -->  
+    <!-- deletion -->  
     <delete id="delete" parameterType="Integer">  
-        delete from users where id = #{id}  
+        delete from records where id = #{id}  
     </delete>  
-    <!-- 用户修改 -->  
+    <!-- update -->  
     <update id="update" parameterType="com.hy2yang.demo.entity.Record">  
-        update users  
+        update records  
         <set>  
             <if test="message != null and message != ''">message = #{message},</if>  
             <if test="URL != null and URL != ''">URL = #{URL},</if>  

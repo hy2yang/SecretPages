@@ -128,12 +128,6 @@ public class RecordController {
             result.put("success", Boolean.FALSE);  
         }  
         
-        /*JSONObject jsonObject = new JSONObject();  
-        if(resultTotal > 0){   //说明修改或添加成功  
-            jsonObject.put("success", true);  
-        }else{  
-            jsonObject.put("success", false);  
-        }  */
         ResponseUtil.write(res, result);  
         return;  
     }  
@@ -162,18 +156,12 @@ public class RecordController {
         ObjectMapper mapper = new ObjectMapper(); 
         result.put("total", total);
         result.put("rows", recordList); 
+        /*
         String jsonRes=mapper.writeValueAsString(result);
-        
-        //mapper.writeValue(res.getWriter(), result);
-       /* 
-        JSONObject result=new JSONObject();  
-        JSONArray jsonArray=JSONArray.fromObject(recordList);  
-        result.put("rows", jsonArray);  
-        result.put("total", total); 
-        */
-        
-        ResponseUtil.write(res, jsonRes);
         System.out.println(jsonRes);
+       */
+        ResponseUtil.write(res, mapper.writeValueAsString(result));
+        
         return;  
     }  
     /** 
@@ -185,19 +173,15 @@ public class RecordController {
      */  
     @RequestMapping("/delete.do")  
     public void delete(@RequestParam(value="ids") String ids,HttpServletResponse res) throws Exception{  
-        String[] idStr = ids.split(","); 
-        
+        String[] idStr = ids.split(",");         
         ObjectMapper mapper = new ObjectMapper(); 
         ObjectNode result=mapper.createObjectNode();
-        
-        //JSONObject jsonObject = new JSONObject();  
         
         for (String id : idStr) {  
             recordService.delete(Integer.parseInt(id));  
         } 
         
         result.put("success", Boolean.TRUE);
-        //jsonObject.put("success", true);  
         ResponseUtil.write(res, result);  
         return;  
     }  
