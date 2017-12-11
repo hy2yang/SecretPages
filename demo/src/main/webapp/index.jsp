@@ -27,7 +27,7 @@
                 <td><input type="password" name="password"></td>
             </tr>
             <tr>
-                <td align="center" colspan="2"><input type="submit" value="提交"></td>            
+                <td align="center" colspan="2"><input type="submit" value="Connnect"></td>            
             </tr>   
         </table>
     </form>
