@@ -1,5 +1,6 @@
 package com.hy2yang.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,6 @@ import com.hy2yang.demo.entity.Record;
 import com.hy2yang.demo.service.RecordService;
 import com.hy2yang.demo.util.PageBean;
 import com.hy2yang.demo.util.ResponseUtil;
-import com.hy2yang.demo.util.StringUtil;
 
 @Controller  
 @RequestMapping("/records")  
@@ -102,7 +103,9 @@ public class RecordController {
     @RequestMapping(value="/userManage.do")  
     public String userManagePage(){  
         return "userManage";  
-    }  
+    } 
+    
+    
     /** 
      * 添加或者修改 
      * @param r 
@@ -141,27 +144,39 @@ public class RecordController {
      * @throws Exception 
      */  
     @RequestMapping("/list.do")  
-    public void list(@RequestParam(value="page",required=false) String page,@RequestParam(value="rows",required=false) 
-    String rows,Record r,HttpServletResponse res) throws Exception{  
+    public void list(@RequestParam(value="page",required=true) String page,@RequestParam(value="rows",required=true)String rows,
+            @RequestParam(value="tableKey",required=true) String tableKey, Record r,HttpServletResponse res) throws Exception{
+        
+        //System.out.println(page);
+        //System.out.println(rows);
+        
+        ObjectMapper mapper = new ObjectMapper(); 
+        if (tableKey==null || tableKey.length()<1) {
+            ResponseUtil.write(res, mapper.writeValueAsString(""));
+            return;
+        }
+        
         
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));  
-        Map<String,Object> map=new HashMap<String,Object>();  
-        map.put("message", StringUtil.formatLike(r.getMessage()));  
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("tableKey", tableKey);
         map.put("start", pageBean.getStartIndex());  
-        map.put("size", pageBean.getPageSize());  
-        List<Record> recordList=recordService.find(map);  
-        Long total=recordService.getTotal(map); 
+        map.put("size", pageBean.getPageSize());
+        
+        List<Record> recordList;
+        try{
+            recordList=recordService.find(map);
+        } catch(BadSqlGrammarException e) {
+            recordList=new ArrayList<Record>();
+            System.out.println("no record is using current key");
+        }
+        Long total=(long) recordList.size();
         
         Map<String,Object> result=new HashMap<String,Object>();
-        ObjectMapper mapper = new ObjectMapper(); 
-        result.put("total", total);
-        result.put("rows", recordList); 
-        /*
-        String jsonRes=mapper.writeValueAsString(result);
-        System.out.println(jsonRes);
-       */
-        ResponseUtil.write(res, mapper.writeValueAsString(result));
         
+        result.put("total", total);
+        result.put("rows", recordList);         
+        ResponseUtil.write(res, mapper.writeValueAsString(result));        
         return;  
     }  
     /** 
@@ -172,13 +187,14 @@ public class RecordController {
      * @throws Exception 
      */  
     @RequestMapping("/delete.do")  
-    public void delete(@RequestParam(value="ids") String ids,HttpServletResponse res) throws Exception{  
+    public void delete(@RequestParam(value="ids",required=true) String ids, @RequestParam(value="tableKey",required=true) String tableKey,
+            HttpServletResponse res) throws Exception{  
         String[] idStr = ids.split(",");         
         ObjectMapper mapper = new ObjectMapper(); 
         ObjectNode result=mapper.createObjectNode();
         
         for (String id : idStr) {  
-            recordService.delete(Integer.parseInt(id));  
+            recordService.delete(tableKey, Integer.parseInt(id));  
         } 
         
         result.put("success", Boolean.TRUE);

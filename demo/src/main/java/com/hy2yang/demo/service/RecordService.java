@@ -8,7 +8,7 @@ import com.hy2yang.demo.entity.Record;
 public interface RecordService {
     public List<Record> getAll();  
     public Record getRecord(Record r);  
-    public int delete(int id);  
+    public int delete(String tableKey, int id);  
     public int update(Record r);  
     public int add(Record r);  
     public List<Record> find(Map<String,Object> map);  

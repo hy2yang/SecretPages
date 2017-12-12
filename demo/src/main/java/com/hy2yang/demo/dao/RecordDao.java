@@ -1,9 +1,11 @@
 package com.hy2yang.demo.dao;
 
 import com.hy2yang.demo.entity.Record;
-
 import java.util.List;
-import java.util.Map; 
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.jdbc.BadSqlGrammarException; 
 
 public interface RecordDao {  
     
@@ -23,7 +25,7 @@ public interface RecordDao {
      * @param user 
      * @return 
      */  
-    public int delete(int id);  
+    public int delete(@Param("tableKey")String tableKey, @Param("id")int id);  
     /** 
      * 更新用户 
      * @param user 
@@ -41,7 +43,7 @@ public interface RecordDao {
      * @param map 
      * @return 
      */  
-    public List<Record> find(Map<String,Object> map);  
+    public List<Record> find(Map<String,Object> map) throws BadSqlGrammarException;  
     /** 
      * 获取总记录数 
      * @param map 

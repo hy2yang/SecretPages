@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
 
 import com.hy2yang.demo.dao.RecordDao;
@@ -29,8 +30,8 @@ public class RecordServiceImpl implements RecordService {
     }  
   
     @Override  
-    public int delete(int id) {  
-        return recordDao.delete(id);  
+    public int delete(String tableKey, int id) {  
+        return recordDao.delete(tableKey,id);  
     }  
   
     @Override  
@@ -44,8 +45,8 @@ public class RecordServiceImpl implements RecordService {
     }  
   
     @Override  
-    public List<Record> find(Map<String, Object> map) {  
-         return recordDao.find(map);  
+    public List<Record> find(Map<String, Object> map) throws BadSqlGrammarException {         
+         return recordDao.find(map);
     }  
   
     @Override  

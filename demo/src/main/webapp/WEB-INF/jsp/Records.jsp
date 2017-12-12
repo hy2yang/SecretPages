@@ -52,11 +52,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
     }
 
-    function searchRecord() {
-        $("#dg").datagrid('load', {
-            "message": $("#s_message").val()
-        });
-    }
+     function showRecord() {
+        $("#dg").datagrid('load', 
+                { "tableKey": $("#tableKey").val() }
+        );
+    } 
 
     function resetValue() {
         $("#message").val("");        
@@ -79,9 +79,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             "</font>?",
             function(r) {
                 if (r) {
-                    $.post("${pageContext.request.contextPath}/records/delete.do", {
-                        ids: ids
-                    }, function(result) {
+                    $.post("${pageContext.request.contextPath}/records/delete.do", {ids: ids, tableKey:$("#tableKey").val()}
+                    , function(result) {
                         if (result.success) {
                             $.messager
                                 .alert("notification", "deleted!");
@@ -122,7 +121,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table id="dg" title="records management" class="easyui-datagrid" fitColumns="true"  
         pagination="true" rownumbers="true"  
         url="${pageContext.request.contextPath}/records/list.do" fit="true"  
-        toolbar="#tb">  
+        toolbar="#tb">
+          
         <thead>  
             <tr>  
                 <th field="cb" checkbox="true" align="center"></th>  
@@ -131,31 +131,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <th field="isURL" formatter="formatIsURL" width="50" align="center">isURL</th>  
                 <th field="group" width="50" align="center">Group</th> 
             </tr>  
-        </thead>  
+        </thead> 
+         
     </table> 
-     
-    
     <div id="tb"> 
 		
-		<div style="float: left;">
+		<!--  div style="float: left;">
 			Message: <input type="text" id="s_key" size="20"
 				onkeydown="if(event.keyCode == 13) searchRecord()" /> <a
 				href="javascript:searchRecord()" class="easyui-linkbutton"
 				iconCls="icon-search" plain="true">search</a>
-		</div>
+		</div-->
 		
 		<a href="javascript:openRecordAddDialog()" class="easyui-linkbutton"
-                iconCls="icon-add" plain="true" style="margin-left:20px;">Add</a> <a
+                iconCls="icon-add" plain="true">Add</a> <a
                 href="javascript:openModifyDialog()" class="easyui-linkbutton"
-                iconCls="icon-edit" plain="true">Edit</a> <a
+                iconCls="icon-edit" plain="true" style="margin-left:20px;">Edit</a> <a
                 href="javascript:deleteRecord()" class="easyui-linkbutton"
-                iconCls="icon-remove" plain="true">Delete</a>  
+                iconCls="icon-remove" plain="true" style="margin-left:20px;">Delete</a>  
 		
 		<div style="float: right;">  
-             key: <input type="text" id="s_message" size="20"  
-                onkeydown="if(event.keyCode == 13)searchRecord()" /> <a  
-                href="javascript:searchRecord()">Go or New</a>
-                
+             Table key: <input type="text" id="tableKey" size="20"  
+                onkeydown="if(event.keyCode == 13) showRecord()" /> <a  
+                href="javascript:showRecord()">Go or New</a>
         </div> 
         
         <div id="dlg-buttons">  
@@ -163,6 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 iconCls="icon-ok">Save</a> <a href="javascript:closeUserDialog()"  
                 class="easyui-linkbutton" iconCls="icon-cancel">Close</a>  
         </div>  
+        
         <div id="dlg" class="easyui-dialog"  
             style="width: 730px;height:280px;padding:10px 10px;" closed="true"  
             buttons="#dlg-buttons">  

@@ -4,52 +4,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.hy2yang.demo.dao.RecordDao">
  
-    <cache size="1024" flushInterval="60000" eviction="LRU" readOnly="false"></cache>  
+    <cache size="1024" flushInterval="60000" eviction="LRU" readOnly="false"></cache>
     
-    <!-- adding -->  
-    <insert id="add" parameterType="com.hy2yang.demo.entity.Record">  
-        insert into records values(null,#{message},#{URL},#{group})  
-    </insert>  
     <resultMap id="recordResultMap" type="com.hy2yang.demo.entity.Record" >  
         <id property="id" column="id"/>  
         <result property="message" column="message"/>  
         <result property="URL" column="URL"/>  
         <result property="group" column="group"/> 
-    </resultMap>  
-    <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap">  
-        select * from records where id=#{id}  
-    </select>  
-    <select id="find" parameterType="com.hy2yang.demo.entity.Record" resultMap="recordResultMap">  
-        select * from records   
-        <where>  
-            <if test="message!=null and message!='' ">  
-                and message like #{message}  
-            </if> 
-        </where>
+    </resultMap>   
+    
+    <!-- adding -->  
+    <insert id="add" parameterType="com.hy2yang.demo.entity.Record" statementType="STATEMENT">  
+        insert into ${tableKey} values(null,${message},${URL},${group})  
+    </insert>  
+     
+    <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap" statementType="STATEMENT">  
+        select * from ${tableKey} where id=${id}  
+    </select> 
+     
+    <select id="find" parameterType="Map" resultMap="recordResultMap" statementType="STATEMENT">  
+        select * from ${tableKey}
         <if test="start!=null and size!=null">  
-            limit #{start},#{size}  
+            limit ${start},${size}  
         </if> 
-    </select>  
-    <select id="getTotal" parameterType="Map" resultType="Long">  
-        select count(*) from records  
-        <where>  
-            <if test="message!=null and message!='' ">  
-                and message like #{message}  
-            </if>  
-        </where>  
-    </select>  
+    </select> 
+     
+    <select id="getTotal" parameterType="Map" resultType="Long" statementType="STATEMENT">  
+        select count(*) from ${tableKey} 
+    </select> 
+     
     <!-- deletion -->  
-    <delete id="delete" parameterType="Integer">  
-        delete from records where id = #{id}  
-    </delete>  
+    <delete id="delete" statementType="STATEMENT">  
+        delete from ${tableKey} where id = ${id}  
+    </delete> 
+     
     <!-- update -->  
-    <update id="update" parameterType="com.hy2yang.demo.entity.Record">  
-        update records  
+    <update id="update" parameterType="com.hy2yang.demo.entity.Record" statementType="STATEMENT">  
+        update ${tableKey}  
         <set>  
-            <if test="message != null and message != ''">message = #{message},</if>  
-            <if test="URL != null and URL != ''">URL = #{URL},</if>  
-            <if test="group != null and group != ''">group = #{group},</if> 
+            <if test="message != null and message != ''">message = ${message},</if>  
+            <if test="URL != null and URL != ''">URL = ${URL},</if>  
+            <if test="group != null and group != ''">group = ${group},</if> 
         </set>  
-        where id = #{id}  
+        where id = ${id}  
     </update>  
 </mapper>  
