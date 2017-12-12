@@ -40,8 +40,8 @@ public class RecordServiceImpl implements RecordService {
     }  
   
     @Override  
-    public int add(Record r) {  
-          return recordDao.add(r);  
+    public int add(Map<String,Object> map) {  
+          return recordDao.add(map);  
     }  
   
     @Override  

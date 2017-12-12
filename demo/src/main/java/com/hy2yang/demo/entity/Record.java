@@ -37,7 +37,11 @@ public class Record implements Serializable{
     }  
     public void setId(Integer id) {  
         this.id = id;  
-    }  
+    }
+    
+    public String toString() {
+        return id+" "+message+" "+URL+" "+group;
+    }
   
    
 }

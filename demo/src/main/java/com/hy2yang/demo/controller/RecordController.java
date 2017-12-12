@@ -25,8 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hy2yang.demo.entity.Record;
 import com.hy2yang.demo.service.RecordService;
-import com.hy2yang.demo.util.PageBean;
-import com.hy2yang.demo.util.ResponseUtil;
+import com.hy2yang.demo.util.*;
 
 @Controller  
 @RequestMapping("/records")  
@@ -107,24 +106,30 @@ public class RecordController {
     
     
     /** 
-     * 添加或者修改 
+     * adding or updating 
      * @param r 
      * @param res 
      * @return 
      * @throws Exception 
      */  
     @RequestMapping("/save.do")  
-    public void save(Record r,HttpServletResponse res) throws Exception{  
-        //操作记录条数，初始化为0  
-        int resultTotal = 0;  
+    public void save (Record r, String tbk, HttpServletResponse res) throws Exception{  
+        System.out.println(tbk);
+        System.out.println(r);
+        
+        int resultTotal = 0;  // records updated
+        
+        Map<String,Object> map= FormatUtil.GetRecordInputMap(tbk,r);
+        
         if (r.getId() == null) {  
-            resultTotal = recordService.add(r);  
+            resultTotal = recordService.add(map);  
         }else{  
             resultTotal = recordService.update(r);  
         }  
         
         ObjectMapper mapper = new ObjectMapper(); 
         ObjectNode result=mapper.createObjectNode();
+        
         if(resultTotal > 0){   
             result.put("success", Boolean.TRUE);  
         }else{  
@@ -135,17 +140,18 @@ public class RecordController {
         return;  
     }  
     /** 
-     * 用户分页查询 
+     * show page of records using certain key 
      * @param page 
      * @param rows 
      * @param r 
-     * @param res 
+     * @param tableKey 
+     * @param res
      * @return 
      * @throws Exception 
      */  
     @RequestMapping("/list.do")  
     public void list(@RequestParam(value="page",required=true) String page,@RequestParam(value="rows",required=true)String rows,
-            @RequestParam(value="tableKey",required=true) String tableKey, Record r,HttpServletResponse res) throws Exception{
+            @RequestParam(value="tableKey",required=true) String tableKey, HttpServletResponse res) throws Exception{
         
         //System.out.println(page);
         //System.out.println(rows);
@@ -170,7 +176,7 @@ public class RecordController {
             recordList=new ArrayList<Record>();
             System.out.println("no record is using current key");
         }
-        Long total=(long) recordList.size();
+        Long total=recordService.getTotal(map);
         
         Map<String,Object> result=new HashMap<String,Object>();
         
@@ -180,9 +186,10 @@ public class RecordController {
         return;  
     }  
     /** 
-     * 删除用户 
+     * record deletion
      * @param ids 
      * @param res 
+     * @param tableKey
      * @return 
      * @throws Exception 
      */  

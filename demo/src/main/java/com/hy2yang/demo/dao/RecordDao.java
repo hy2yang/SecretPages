@@ -37,7 +37,7 @@ public interface RecordDao {
      * @param user 
      * @return 
      */  
-    public int add(Record p);  
+    public int add(Map<String,Object> map);  
     /** 
      * 用户查询 
      * @param map 

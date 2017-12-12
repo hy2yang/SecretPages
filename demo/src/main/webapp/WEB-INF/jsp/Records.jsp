@@ -22,21 +22,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript">
     
     var url;
+    var tbk;
     function openRecordAddDialog() {
         $("#dlg").dialog("open").dialog("setTitle", "add user info");
         url = "${pageContext.request.contextPath}/records/save.do";
     }
 
-    function saveRecord() {
+    function saveRecord() {        
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: $("#fm").serialize()+ "&tbk="+tbk,
+                onSubmit: function() {
+                    if ($("#messageBox").val() == "") {
+                        $.messager.alert("notification", "message cannot be null");
+                        return false;
+                        }                                       
+                    },
+                success: function(result) {
+                    var result = eval('(' + result + ')');
+                    if (result.success) {
+                        $.messager.alert("notification", "saved!");
+                        resetValue();
+                        $("#dlg").dialog("close");
+                        $("#dg").datagrid("reload");
+                    } else {
+                        $.messager.alert("notification", "fail to save!");
+                        return;
+                    }
+                }
+            });        
+    };
+
+     function saveRecord2() {
         $("#fm").form("submit", {
-            url: url,
+            url: url,            
             onSubmit: function() {
-                /* if ($("#messageBox").combobox("getValue") == "") {
-                    $.messager.alert("notification", "select user role");
+                if ($("#messageBox").val() == "") {
+                    $.messager.alert("notification", "message cannot be null");
                     return false;
-                } */
+                    }
                 return $(this).form("validate");
-            },
+                },
+                
             success: function(result) {
                 var result = eval('(' + result + ')');
                 if (result.success) {
@@ -49,13 +77,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     return;
                 }
             }
+                
         });
-    }
+    } 
 
      function showRecord() {
+    	tbk = $("#tableKey").val();
         $("#dg").datagrid('load', 
-                { "tableKey": $("#tableKey").val() }
+                { "tableKey": tbk }
         );
+        
     } 
 
     function resetValue() {
@@ -75,11 +106,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
         var ids = strIds.join(",");
         $.messager.confirm("notification",
-            "sure to delete data of <font color=red>" + selectedRows.length +
-            "</font>?",
+            "sure to delete data of <font color=red>" + selectedRows.length +"</font>?",
             function(r) {
                 if (r) {
-                    $.post("${pageContext.request.contextPath}/records/delete.do", {ids: ids, tableKey:$("#tableKey").val()}
+                    $.post("${pageContext.request.contextPath}/records/delete.do", {ids: ids, tableKey: tbk}
                     , function(result) {
                         if (result.success) {
                             $.messager
@@ -136,13 +166,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </table> 
     <div id="tb"> 
 		
-		<!--  div style="float: left;">
-			Message: <input type="text" id="s_key" size="20"
-				onkeydown="if(event.keyCode == 13) searchRecord()" /> <a
-				href="javascript:searchRecord()" class="easyui-linkbutton"
-				iconCls="icon-search" plain="true">search</a>
-		</div-->
-		
 		<a href="javascript:openRecordAddDialog()" class="easyui-linkbutton"
                 iconCls="icon-add" plain="true">Add</a> <a
                 href="javascript:openModifyDialog()" class="easyui-linkbutton"
@@ -153,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div style="float: right;">  
              Table key: <input type="text" id="tableKey" size="20"  
                 onkeydown="if(event.keyCode == 13) showRecord()" /> <a  
-                href="javascript:showRecord()">Go or New</a>
+                href="javascript:showRecord()">Go</a>
         </div> 
         
         <div id="dlg-buttons">  
@@ -168,15 +191,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <form method="post" id="fm">
 				<table cellspacing="8px;">
 					<tbody>
-						<tr>
-							<td>Message:</td>
-							<td colspan="2"><input id="messageBox"
-								class="easyui-validatebox" name="message" style="width: 300px"
-								required="true" type="text" /> <span style="color: red;">*</span></td>
+						<tr height="50">
+							
+							<td colspan="2">Message:<input type="text" id="messageBox"
+								 name="message" style="width: 300px"
+								required="true" /> <span style="color: red;">*</span></td>
 						</tr>
-						<tr>
-							<td>Group</td>
-							<td><select id="group" class="easyui-combobox"
+						<tr height="50">
+						<td>This is a url
+                            <input type="hidden" name="isURL" value="false"/>
+                            <input id="cbox" type="checkbox" name="isURL" value="true"/><span style="color: red;">*</span>
+                            </td>						
+						</tr>
+						<tr height="50">	
+							<td>Group:<select id="group" class="easyui-combobox"
 								style="width: 154px;" name="group">
 									<option value="">Choose a Group</option>
 									<!--  add avaliable groups here>
@@ -185,9 +213,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<option value="manager">manager</option>
 									<option value="officer">officer</option>
 									<-->
-							</select><span style="color: red;">*</span></td>
-							<td><input id="cbox" type="checkbox" /> <label for="cbox">This
-									is a url.</label><span style="color: red;">*</span></td>
+							</select>
+							<span style="color: red;">*</span></td>
+							
 						</tr>
 					</tbody>
 				</table>

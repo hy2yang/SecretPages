@@ -14,8 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>   
     
     <!-- adding -->  
-    <insert id="add" parameterType="com.hy2yang.demo.entity.Record" statementType="STATEMENT">  
-        insert into ${tableKey} values(null,${message},${URL},${group})  
+    <insert id="add" parameterType="Map" statementType="STATEMENT">  
+        insert into ${tableKey} values(null,${r_message},${r_URL},${r_group})  
     </insert>  
      
     <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap" statementType="STATEMENT">  
