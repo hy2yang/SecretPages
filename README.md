@@ -8,4 +8,4 @@ Dec 9th 2017, refactored data entity (thus changes all over the project), update
 
 Dec 10th 2017, paging, ui, concepts about index page
 
-Dec 11th-12th, fix bug in paging, implement dynamic-table functions of add, delete and list
+Dec 11th-12th, fix bug in paging, implement dynamic-table functions. problems about the isURL on frontend

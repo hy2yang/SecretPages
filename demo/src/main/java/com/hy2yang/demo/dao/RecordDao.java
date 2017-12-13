@@ -21,37 +21,38 @@ public interface RecordDao {
      */  
     public Record getRecord(Record p);  
     /** 
-     * 删除用户 
-     * @param user 
+     * delete record 
+     * @param tablekey 
+     * @param id
      * @return 
      */  
     public int delete(@Param("tableKey")String tableKey, @Param("id")int id);  
     /** 
-     * 更新用户 
-     * @param user 
+     * update record 
+     * @param map 
      * @return 
      */  
-    public int update(Record p);  
+    public int update(Map<String,Object> map);  
     /** 
-     * 添加用户 
-     * @param user 
+     * add record 
+     * @param map 
      * @return 
      */  
     public int add(Map<String,Object> map);  
     /** 
-     * 用户查询 
+     * query 
      * @param map 
      * @return 
      */  
     public List<Record> find(Map<String,Object> map) throws BadSqlGrammarException;  
     /** 
-     * 获取总记录数 
+     * get total records of a table 
      * @param map 
      * @return 
      */  
     public Long getTotal(Map<String,Object> map);  
     /** 
-     * 根据id查询用户 
+     * get record of certain id
      * @param id 
      * @return 
      */  

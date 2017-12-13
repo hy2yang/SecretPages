@@ -9,7 +9,7 @@ public interface RecordService {
     public List<Record> getAll();  
     public Record getRecord(Record r);  
     public int delete(String tableKey, int id);  
-    public int update(Record r);  
+    public int update(Map<String,Object> map);  
     public int add(Map<String,Object> map);  
     public List<Record> find(Map<String,Object> map);  
     public Long getTotal(Map<String,Object> map);  

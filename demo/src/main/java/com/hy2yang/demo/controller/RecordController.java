@@ -124,7 +124,7 @@ public class RecordController {
         if (r.getId() == null) {  
             resultTotal = recordService.add(map);  
         }else{  
-            resultTotal = recordService.update(r);  
+            resultTotal = recordService.update(map);  
         }  
         
         ObjectMapper mapper = new ObjectMapper(); 

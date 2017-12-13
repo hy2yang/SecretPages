@@ -198,9 +198,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								required="true" /> <span style="color: red;">*</span></td>
 						</tr>
 						<tr height="50">
-						<td>This is a url
-                            <input type="hidden" name="isURL" value="false"/>
-                            <input id="cbox" type="checkbox" name="isURL" value="true"/><span style="color: red;">*</span>
+						<td>This
+                            <select id="isURL" name="isURL">
+                                <option value="false" selected>is NOT</option>
+                                <option value="true">  is</option>
+                            </select>a url.<span style="color: red;">*</span>
                             </td>						
 						</tr>
 						<tr height="50">	

@@ -35,8 +35,8 @@ public class RecordServiceImpl implements RecordService {
     }  
   
     @Override  
-    public int update(Record r) {  
-         return recordDao.update(r);  
+    public int update(Map<String,Object> map) {  
+         return recordDao.update(map);  
     }  
   
     @Override  

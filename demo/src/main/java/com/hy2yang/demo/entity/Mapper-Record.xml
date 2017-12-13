@@ -39,13 +39,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete> 
      
     <!-- update -->  
-    <update id="update" parameterType="com.hy2yang.demo.entity.Record" statementType="STATEMENT">  
+    <update id="update" parameterType="Map" statementType="STATEMENT">  
         update ${tableKey}  
         <set>  
-            <if test="message != null and message != ''">message = ${message},</if>  
-            <if test="URL != null and URL != ''">URL = ${URL},</if>  
-            <if test="group != null and group != ''">group = ${group},</if> 
+            <if test="r_message != null and r_message != ''">message = ${r_message},</if>  
+            <if test="r_URL != null and r_URL != ''">URL = ${r_URL},</if>  
+            <if test="r_group != null and r_group != ''">`group` = ${r_group},</if> 
         </set>  
-        where id = ${id}  
+        where id = ${r_id}  
     </update>  
 </mapper>  
