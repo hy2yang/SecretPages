@@ -39,6 +39,10 @@ public interface RecordDao {
      * @return 
      */  
     public int add(Map<String,Object> map);  
+    
+    public int newTable(String tableKey);
+    
+    public int dropEmpty(String tableKey);
     /** 
      * query 
      * @param map 
@@ -50,7 +54,7 @@ public interface RecordDao {
      * @param map 
      * @return 
      */  
-    public Long getTotal(Map<String,Object> map) throws BadSqlGrammarException;  
+    public Long getTotal(String tableKey) throws BadSqlGrammarException;  
     /** 
      * get record of certain id
      * @param id 

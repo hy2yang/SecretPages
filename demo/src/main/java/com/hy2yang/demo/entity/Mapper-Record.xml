@@ -14,44 +14,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>   
     
     <!-- adding -->  
-    <insert id="add" parameterType="Map" statementType="STATEMENT"> 
-        CREATE TABLE if not exists `${tableKey}` (  
-        `id` int auto_increment,
-        `message` varchar(255) NOT NULL,  
-        `URL` tinyint(1),
-        `group` varchar(20),
-        PRIMARY KEY (`id`)  
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;   
-        insert into ${tableKey} values(null,${r_message},${r_URL},${r_group}) ; 
+    
+    <update id="newTable" parameterType="String">  
+        CREATE TABLE if not exists ${_parameter} 
+        (`id` int auto_increment,`message` varchar(255) NOT NULL,`URL` tinyint(1),`group` varchar(20),PRIMARY KEY (`id`)) 
+        ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+    
+    <insert id="add" parameterType="Map">
+        insert into ${tableKey} values(null,#{r_message},#{r_URL},#{r_group});
     </insert>  
      
     <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap" statementType="STATEMENT">  
         select * from ${tableKey} where id=${id}  
     </select> 
      
-    <select id="find" parameterType="Map" resultMap="recordResultMap" statementType="STATEMENT">  
+    <select id="find" parameterType="Map" flushCache="true" resultMap="recordResultMap">  
         select * from ${tableKey}
         <if test="start!=null and size!=null">  
-            limit ${start},${size}  
+            limit #{start},#{size}  
         </if> 
     </select> 
      
-    <select id="getTotal" parameterType="Map" resultType="Long" statementType="STATEMENT">  
-        select count(*) from ${tableKey} 
+    <select id="getTotal" parameterType="String" flushCache="true" resultType="Long" statementType="STATEMENT">  
+        select count(*) from ${_parameter} 
     </select> 
      
     <!-- deletion -->  
     <delete id="delete" statementType="STATEMENT">  
         delete from ${tableKey} where id = ${id}  
     </delete> 
+    
+    <delete id="dropEmpty" parameterType="String" statementType="STATEMENT">  
+        drop table ${_parameter}
+    </delete>
      
     <!-- update -->  
-    <update id="update" parameterType="Map" statementType="STATEMENT">  
+    <update id="update" parameterType="Map">  
         update ${tableKey}  
         <set>  
-            <if test="r_message != null and r_message != ''">message = ${r_message},</if>  
-            <if test="r_URL != null and r_URL != ''">URL = ${r_URL},</if>  
-            <if test="r_group != null and r_group != ''">`group` = ${r_group},</if> 
+            <if test="r_message != null and r_message != ''">message = #{r_message},</if>  
+            <if test="r_URL != null and r_URL != ''">URL = #{r_URL},</if>  
+            <if test="r_group != null and r_group != ''">`group` = #{r_group},</if> 
         </set>  
         where id = ${r_id}  
     </update>  

@@ -113,9 +113,7 @@ public class RecordController {
      * @throws Exception 
      */  
     @RequestMapping("/save.do")  
-    public void save (Record r, String tbk, HttpServletResponse res) throws Exception{  
-        System.out.println(tbk);
-        System.out.println(r);
+    public void save (Record r, String tbk, HttpServletResponse res) throws Exception{ 
         
         int resultTotal = 0;  // records updated
         
@@ -153,19 +151,15 @@ public class RecordController {
     public void list(@RequestParam(value="page",required=true) String page,@RequestParam(value="rows",required=true)String rows,
             @RequestParam(value="tableKey",required=true) String tableKey, HttpServletResponse res) throws Exception{
         
-        //System.out.println(page);
-        //System.out.println(rows);
-        
         ObjectMapper mapper = new ObjectMapper(); 
         if (tableKey==null || tableKey.length()<1) {
             ResponseUtil.write(res, mapper.writeValueAsString(""));
             return;
-        }
-        
+        }        
         
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));  
         Map<String,Object> map=new HashMap<String,Object>();
-        map.put("tableKey", tableKey);
+        map.put("tableKey", "`"+tableKey+"`");
         map.put("start", pageBean.getStartIndex());  
         map.put("size", pageBean.getPageSize());
         
@@ -173,7 +167,7 @@ public class RecordController {
         Long total;
         try{
             recordList=recordService.find(map);
-            total=recordService.getTotal(map);
+            total=recordService.getTotal("`"+tableKey+"`");
         } catch(BadSqlGrammarException e) {
             recordList=new ArrayList<Record>();
             total=(long) 0;
@@ -207,7 +201,13 @@ public class RecordController {
         } 
         
         result.put("success", Boolean.TRUE);
-        ResponseUtil.write(res, result);  
+        ResponseUtil.write(res, result); 
+        
+        if (recordService.getTotal("`"+tableKey+"`")<1) {
+            recordService.dropEmpty(tableKey);
+        }
+        
+
         return;  
     }  
 }  

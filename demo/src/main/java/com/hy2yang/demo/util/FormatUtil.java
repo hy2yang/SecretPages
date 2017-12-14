@@ -25,11 +25,11 @@ public class FormatUtil {
     */   
    public static HashMap<String,Object> GetRecordInputMap(String tbk, Record r) {
        HashMap<String,Object> res =new HashMap<>();
-       res.put("tableKey", tbk);
+       res.put("tableKey", "`"+tbk+"`");
        res.put("r_id", r.getId());
-       res.put("r_message", "'"+r.getMessage()+"'");
+       res.put("r_message", r.getMessage());
        res.put("r_URL", r.isURL());
-       res.put("r_group", "'"+r.getGroup()+"'");
+       res.put("r_group", r.getGroup());
        return res;
    }
  
