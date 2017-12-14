@@ -50,7 +50,7 @@ public class RecordServiceImpl implements RecordService {
     }  
   
     @Override  
-    public Long getTotal(Map<String, Object> map) {  
+    public Long getTotal(Map<String, Object> map) throws BadSqlGrammarException {  
          return recordDao.getTotal(map);  
     }  
     public Record getRecordById(int id){  

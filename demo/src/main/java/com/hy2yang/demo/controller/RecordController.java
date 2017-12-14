@@ -170,13 +170,15 @@ public class RecordController {
         map.put("size", pageBean.getPageSize());
         
         List<Record> recordList;
+        Long total;
         try{
             recordList=recordService.find(map);
+            total=recordService.getTotal(map);
         } catch(BadSqlGrammarException e) {
             recordList=new ArrayList<Record>();
+            total=(long) 0;
             System.out.println("no record is using current key");
         }
-        Long total=recordService.getTotal(map);
         
         Map<String,Object> result=new HashMap<String,Object>();
         

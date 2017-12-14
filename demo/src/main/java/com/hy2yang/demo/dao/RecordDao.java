@@ -50,7 +50,7 @@ public interface RecordDao {
      * @param map 
      * @return 
      */  
-    public Long getTotal(Map<String,Object> map);  
+    public Long getTotal(Map<String,Object> map) throws BadSqlGrammarException;  
     /** 
      * get record of certain id
      * @param id 

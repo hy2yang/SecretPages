@@ -14,8 +14,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>   
     
     <!-- adding -->  
-    <insert id="add" parameterType="Map" statementType="STATEMENT">  
-        insert into ${tableKey} values(null,${r_message},${r_URL},${r_group})  
+    <insert id="add" parameterType="Map" statementType="STATEMENT"> 
+        CREATE TABLE if not exists `${tableKey}` (  
+        `id` int auto_increment,
+        `message` varchar(255) NOT NULL,  
+        `URL` tinyint(1),
+        `group` varchar(20),
+        PRIMARY KEY (`id`)  
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;   
+        insert into ${tableKey} values(null,${r_message},${r_URL},${r_group}) ; 
     </insert>  
      
     <select id="getRecordById" parameterType="Integer" resultMap="recordResultMap" statementType="STATEMENT">  

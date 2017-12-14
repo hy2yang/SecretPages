@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             });        
     };
 
-     function saveRecord2() {
+     /* function saveRecord2() {
         $("#fm").form("submit", {
             url: url,            
             onSubmit: function() {
@@ -79,13 +79,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
                 
         });
-    } 
+    }  */
 
      function showRecord() {
     	tbk = $("#tableKey").val();
-        $("#dg").datagrid('load', 
-                { "tableKey": tbk }
-        );
+        $("#dg").datagrid('load',{"tableKey": tbk});
         
     } 
 
@@ -136,12 +134,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         url = "${pageContext.request.contextPath}/records/save.do?id=" + row.id;
     }
 
-    function formatIsURL(value,row,index)
+    function formatIsURL(value,row)
     {
-     if(value)
-        return "yes";
+     //console.log(row);
+     if(row.url)         
+        return '✔';
      else
-        return "no";
+        return '❌';
     }
     
     </script>  
@@ -199,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</tr>
 						<tr height="50">
 						<td>This
-                            <select id="isURL" name="isURL">
+                            <select id="isURL" name="URL">
                                 <option value="false" selected>is NOT</option>
                                 <option value="true">  is</option>
                             </select>a url.<span style="color: red;">*</span>
