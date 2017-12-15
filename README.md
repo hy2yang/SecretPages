@@ -1,4 +1,4 @@
-# ssmDemo
+# SecretPages
 
 A running web app demo using SpringMVC + Spring + MyBatis
 

@@ -28,6 +28,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         url = "${pageContext.request.contextPath}/records/save.do";
     }
 
+    function closeEditDialog(){
+    	$("#dlg").dialog('close');
+        }
+
     function saveRecord() {        
             $.ajax({
                 url: url,
@@ -53,34 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 }
             });        
     };
-
-     /* function saveRecord2() {
-        $("#fm").form("submit", {
-            url: url,            
-            onSubmit: function() {
-                if ($("#messageBox").val() == "") {
-                    $.messager.alert("notification", "message cannot be null");
-                    return false;
-                    }
-                return $(this).form("validate");
-                },
-                
-            success: function(result) {
-                var result = eval('(' + result + ')');
-                if (result.success) {
-                    $.messager.alert("notification", "saved!");
-                    resetValue();
-                    $("#dlg").dialog("close");
-                    $("#dg").datagrid("reload");
-                } else {
-                    $.messager.alert("notification", "fail to save!");
-                    return;
-                }
-            }
-                
-        });
-    }  */
-
+     
      function showRecord() {
     	tbk = $("#tableKey").val();
         $("#dg").datagrid('load',{"tableKey": tbk});
@@ -180,7 +157,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <div id="dlg-buttons">  
             <a href="javascript:saveRecord()" class="easyui-linkbutton"  
-                iconCls="icon-ok">Save</a> <a href="javascript:closeUserDialog()"  
+                iconCls="icon-ok">Save</a> <a href="javascript:closeEditDialog()"  
                 class="easyui-linkbutton" iconCls="icon-cancel">Close</a>  
         </div>  
         

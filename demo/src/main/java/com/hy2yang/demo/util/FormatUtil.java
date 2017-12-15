@@ -14,18 +14,15 @@ import javax.crypto.spec.SecretKeySpec;
 import com.hy2yang.demo.entity.Record;
 
 public class FormatUtil {  
-    /** 
-    * if a string is empty 
-    * @param str 
-    * @return 
-    */  
-   static boolean isEmpty(String str){  
+    
+    
+   /*static boolean isEmpty(String str){  
        if(str==null||"".equals(str.trim())){  
            return true;  
        }else{  
            return false;  
        }  
-   }
+   }*/
    
    /**
     *  wrap and format tableKey and record into a map for mybatis
