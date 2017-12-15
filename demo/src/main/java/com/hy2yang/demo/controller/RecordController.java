@@ -159,7 +159,7 @@ public class RecordController {
         
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));  
         Map<String,Object> map=new HashMap<String,Object>();
-        map.put("tableKey", "`"+tableKey+"`");
+        map.put("tableKey", tableKey);
         map.put("start", pageBean.getStartIndex());  
         map.put("size", pageBean.getPageSize());
         
@@ -167,7 +167,7 @@ public class RecordController {
         Long total;
         try{
             recordList=recordService.find(map);
-            total=recordService.getTotal("`"+tableKey+"`");
+            total=recordService.getTotal(tableKey);
         } catch(BadSqlGrammarException e) {
             recordList=new ArrayList<Record>();
             total=(long) 0;
@@ -203,10 +203,9 @@ public class RecordController {
         result.put("success", Boolean.TRUE);
         ResponseUtil.write(res, result); 
         
-        if (recordService.getTotal("`"+tableKey+"`")<1) {
+        if (recordService.getTotal(tableKey)<1) {
             recordService.dropEmpty(tableKey);
         }
-        
 
         return;  
     }  

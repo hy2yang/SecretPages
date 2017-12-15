@@ -1,6 +1,5 @@
 package com.hy2yang.demo.util;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -20,7 +19,7 @@ public class FormatUtil {
     * @param str 
     * @return 
     */  
-   public static boolean isEmpty(String str){  
+   static boolean isEmpty(String str){  
        if(str==null||"".equals(str.trim())){  
            return true;  
        }else{  
@@ -35,70 +34,83 @@ public class FormatUtil {
     */   
    public static HashMap<String,Object> GetRecordInputMap(String tbk, Record r) {
        HashMap<String,Object> res =new HashMap<>();
-       res.put("tableKey", "`"+tbk+"`");
+       res.put("tableKey", tbk);
        res.put("r_id", r.getId());
-       res.put("r_message", r.getMessage());
+       res.put("r_message", encrypt(r.getMessage(),tbk));
        res.put("r_URL", r.isURL());
-       res.put("r_group", r.getGroup());
+       res.put("r_group", encrypt(r.getGroup(),tbk));
        return res;
    }
    
-   public static String encrypt(String pw, String text) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
-       byte[] key=pw.getBytes();       
-       SecretKeySpec ks = new SecretKeySpec(key, "Blowfish");
-       Cipher cipher;
-       
-       cipher = Cipher.getInstance("Blowfish");
-       cipher.init(Cipher.ENCRYPT_MODE, ks);
-       
-       byte[] encrypted = cipher.doFinal(text.getBytes(StandardCharsets.ISO_8859_1));       
-       String res= new String(encrypted, StandardCharsets.ISO_8859_1);
-       System.out.println(res);
+   public static String encrypt(String text, String pw) {
+        byte[] key = pw.getBytes();
+        SecretKeySpec ks = new SecretKeySpec(key, "Blowfish");
+        Cipher cipher;
+        byte[] encrypted;
+        
+        try {
+            cipher = Cipher.getInstance("Blowfish");
+            cipher.init(Cipher.ENCRYPT_MODE, ks);
+            encrypted = cipher.doFinal(text.getBytes(StandardCharsets.ISO_8859_1));
+        } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException | NoSuchAlgorithmException
+                | NoSuchPaddingException e) {
+            encrypted = null;
+            e.printStackTrace();
+        }
+        
+        String res = new String(encrypted, StandardCharsets.ISO_8859_1);
+        //System.out.println(res);
+        return res;
+   }
+   
+   public static String decrypt(String text, String pw) {
+        byte[] key = pw.getBytes();
+        SecretKeySpec ks = new SecretKeySpec(key, "Blowfish");
+        Cipher cipher;
+
+        byte[] encrypted = text.getBytes(StandardCharsets.ISO_8859_1);
+        byte[] decrypted;
+        
+        try {
+            cipher = Cipher.getInstance("Blowfish");
+            cipher.init(Cipher.DECRYPT_MODE, ks);
+            decrypted = cipher.doFinal(encrypted);
+        } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException | NoSuchAlgorithmException
+                | NoSuchPaddingException e) {
+            decrypted = null;
+            e.printStackTrace();
+        }
+        
+        String res = new String(decrypted, StandardCharsets.ISO_8859_1);
+        //System.out.println(res);
+        return res;
+   }
+   
+   public static Record encryptRecord(Record r, String key) {  
+       Record res=new Record();
+       res.setId(r.getId());
+       res.setURL(r.isURL());
+       res.setMessage(encrypt(r.getMessage(),key));
+       res.setGroup(encrypt(r.getGroup(),key));
        return res;
    }
    
-   public static String decrypt(String pw, String text) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
-       byte[] key=pw.getBytes();       
-       SecretKeySpec ks = new SecretKeySpec(key, "Blowfish");
-       Cipher cipher;
-       
-       byte[] encrypted = text.getBytes(StandardCharsets.ISO_8859_1);
-       
-       cipher = Cipher.getInstance("Blowfish");
-       cipher.init(Cipher.DECRYPT_MODE, ks);
-       
-       byte[] decrypted = cipher.doFinal(encrypted);
-       String res = new String(decrypted, StandardCharsets.ISO_8859_1);
-       System.out.println(res);
+   
+   public static Record decryptRecord(Record r, String key) {  
+       Record res=new Record();
+       res.setId(r.getId());
+       res.setURL(r.isURL());
+       res.setMessage(decrypt(r.getMessage(),key));
+       res.setGroup(decrypt(r.getGroup(),key));
        return res;
    }
+   
    
    public static void main(String[] args) {
        String t=System.getProperty("user.name");
        System.out.println(t);
-       String en=" ";
-        try {
-            en = encrypt("testpw",t);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
-                | BadPaddingException e) {
-            e.printStackTrace();
-            
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        try {
-            decrypt("testpw",en);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
-                | BadPaddingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-       
+       String en=encrypt(t,"records");
+       decrypt(en,"records");
    }
  
 }  

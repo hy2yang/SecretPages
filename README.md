@@ -11,3 +11,5 @@ Dec 10th 2017, paging, ui, concepts about index page
 Dec 11th-12th, fix bug in paging, implement dynamic-table functions. problems about the isURL on frontend
 
 Dec 13th, create table if  insert into a non-exisitng one; drop one if it is empty after deletion
+
+Dec 14th, encryption and decryption
