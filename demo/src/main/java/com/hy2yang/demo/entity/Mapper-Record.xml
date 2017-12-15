@@ -52,9 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- update -->  
     <update id="update" parameterType="Map">  
         update `${tableKey}`  
-        <set>  
-            <if test="r_message != null and r_message != ''">message = #{r_message},</if>  
-            <if test="r_URL != null and r_URL != ''">URL = #{r_URL},</if>  
+        <set> 
+            URL = #{r_URL}, 
+            <if test="r_message != null and r_message != ''">message = #{r_message},</if> 
             <if test="r_group != null and r_group != ''">`group` = #{r_group},</if> 
         </set>  
         where id = ${r_id}  

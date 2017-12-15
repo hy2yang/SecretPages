@@ -42,6 +42,7 @@ public class RecordServiceImpl implements RecordService {
     public int update(Map<String, Object> map) {  
         String newkey=FormatUtil.encrypt((String) map.get("tableKey"), System.getProperty("user.name"));
         map.put("tableKey", newkey);
+        System.out.println(map.get("r_URL"));
         return recordDao.update(map);
     }
 
