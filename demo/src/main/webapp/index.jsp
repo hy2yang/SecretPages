@@ -8,26 +8,29 @@
 </head>
 <body>
 
-    <form action="login.do" method="post">
+    <form action="${pageContext.request.contextPath}/index/login.do" method="post">
         <table align="center">
 
             <tr>
-                <td colspan="2" align="center"><font color="#ff0000" size="5sp">user login</font></td>
+                <td colspan="3" align="center"><font color="#ff0000" size="5sp">user login</font></td>
             </tr>
             <tr>
-                <td>URL:port/databaseName</td>
-                <td><input type="text" name="url"></td>
+                <td>Address</td>
+                <td><input style="width: 150px;"  type="text" name="url"></td>
+                <td><font size="1sp">in form of (URL:port/databaseName)</font></td>
             </tr>
             <tr>
-                <td>user:</td>
-                <td><input type="text" name="user"></td>
+                <td>User:</td>
+                <td><input style="width: 150px;" type="text" name="user"></td>
+                <td></td>
             </tr>
             <tr>
-                <td>password:</td>
-                <td><input type="password" name="password"></td>
+                <td>Password:</td>
+                <td><input style="width: 150px;" type="password" name="password"></td>
+                <td></td>
             </tr>
             <tr>
-                <td align="center" colspan="2"><input type="submit" value="Connnect"></td>            
+                <td align="center" colspan="3"><input type="submit" value="Connnect"></td>            
             </tr>   
         </table>
     </form>

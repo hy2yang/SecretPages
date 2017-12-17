@@ -6,12 +6,12 @@
           version="3.0">  
    
     <display-name>web test page</display-name>  
-    <!-- Spring和mybatis的配置文件 -->    
+    <!--  -->    
     <context-param>  
         <param-name>contextConfigLocation</param-name>  
         <param-value>classpath:spring-mybatis.xml</param-value>  
     </context-param>  
-    <!-- 编码过滤器 -->  
+    <!--  -->  
     <filter>  
         <filter-name>encodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
@@ -25,11 +25,11 @@
         <filter-name>encodingFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
     </filter-mapping>  
-    <!-- Spring监听器:启动Web容器时，自动装配ApplicationContext的配置信息，即上面的：contextConfigLocation-->   
+    <!-- -->   
     <listener>  
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
     </listener>  
-    <!-- 防止Spring内存溢出监听器 -->   
+    <!--  -->   
     <listener>  
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
     </listener>  
@@ -46,10 +46,10 @@
     </servlet>  
     <servlet-mapping>  
         <servlet-name>springMVC</servlet-name>  
-        <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 也可以是/-->    
+        <!-- -->    
         <url-pattern>*.do</url-pattern>  
     </servlet-mapping>  
-    <!-- 解决由于采用spring的过滤器，导致页面引用的JS、images、CSS发生找不到的错误;也可以用使用spring mvc 的 <mvc:resources /> 注解 用来处理静态文件 -->  
+    <!-- prevent resources from being filtered by spring, can also be done by using <mvc:resources /> annotation -->  
     <servlet-mapping>  
         <servlet-name>default</servlet-name>  
         <url-pattern>*.css</url-pattern>  
@@ -70,8 +70,11 @@
         <servlet-name>default</servlet-name>  
         <url-pattern>*.js</url-pattern>  
     </servlet-mapping>  
+    
     <welcome-file-list>  
-        <welcome-file>/WEB-INF/jsp/Records.jsp</welcome-file>    
+    
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/jsp/Records.jsp</welcome-file>            
     </welcome-file-list>  
     
  </web-app>

@@ -13,3 +13,5 @@ Dec 11th-12th, fix bug in paging, implement dynamic-table functions. problems ab
 Dec 13th, create table if  insert into a non-exisitng one; drop one if it is empty after deletion
 
 Dec 14th, encryption and decryption
+
+Dec 16th, index page: db connection
