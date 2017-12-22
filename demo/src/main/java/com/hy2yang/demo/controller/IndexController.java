@@ -19,14 +19,17 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 public class IndexController {            // simple function for demo, so no modularization
     
     @RequestMapping("/login.do")  
-    public static String tryLogin(HttpServletRequest request,Model model, String url, String password, String user){ 
-        url+="jdbc:mysql://";
+    public static String tryLogin(HttpServletRequest request, Model model, String url, String password, String user){
+        url="jdbc:mysql://"+url;
         
         if (loginMySQL(url, user, password)) {
             saveProperties(url, user, password);
-            return "/WEB-INF/jsp/success"; 
+            return "/WEB-INF/jsp/Records"; 
         }        
-        else return "/WEB-INF/jsp/fail";
+        else {
+            request.setAttribute("error", "connection failed!");
+            return "/index";
+        }
          
     }
     

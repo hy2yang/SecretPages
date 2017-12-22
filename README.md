@@ -15,3 +15,5 @@ Dec 13th, create table if  insert into a non-exisitng one; drop one if it is emp
 Dec 14th, encryption and decryption
 
 Dec 16th, index page: db connection
+
+Dec 21st, index page redirections

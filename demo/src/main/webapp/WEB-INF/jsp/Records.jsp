@@ -186,10 +186,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								style="width: 154px;" name="group">
 									<option value="">Choose a Group</option>
 									<!--  add avaliable groups here>
-									<option value="system admin">system admin</option>
-									<option value="sales">sales</option>
-									<option value="manager">manager</option>
-									<option value="officer">officer</option>
 									<-->
 							</select>
 							<span style="color: red;">*</span></td>
