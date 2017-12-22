@@ -21,7 +21,7 @@ public class TestSpring {
         
         for (int i=0;i<30;++i) {
             r.setMessage(randomString(8));
-            us.add(r);
+            //us.add(r);
         }
     }  
     

@@ -10,12 +10,12 @@ import org.springframework.jdbc.BadSqlGrammarException;
 public interface RecordDao {  
     
     /** 
-     * 查询所有用户 
+     *  
      * @return 
      */  
     public List<Record> getAll();  
     /** 
-     * 根据条件查询用户 
+     * 
      * @param user 
      * @return 
      */  
