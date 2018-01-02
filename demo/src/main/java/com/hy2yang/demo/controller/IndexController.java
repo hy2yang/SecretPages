@@ -9,7 +9,6 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -19,7 +18,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 public class IndexController {            // simple function for demo, so no modularization
     
     @RequestMapping("/login.do")  
-    public static String tryLogin(HttpServletRequest request, Model model, String url, String password, String user){
+    public static String tryLogin(HttpServletRequest request, String url, String password, String user){
         url="jdbc:mysql://"+url;
         
         if (loginMySQL(url, user, password)) {
